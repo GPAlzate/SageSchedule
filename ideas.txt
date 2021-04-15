@@ -23,3 +23,6 @@ Semester-to-semester course schedule
         e. ID1
     iii. customizable number of units
     iv. valid schedule? (dependencies (pre-reqs), and if current schedule, timing)
+
+Python installed:
+tableauscraper
