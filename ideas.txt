@@ -1,0 +1,25 @@
+CSCI181: Final Project
+Gab Smauel So
+
+Project Outline
+
+1. Gather course information from 2021-2022 course catalog.
+    a) reach out to registrar for dependencies
+    b) if not, either i) hard-code information, ii) scrape from course-catalog using NLP techniques (e.g., regex search "pre-requisite")
+
+2. Map out "front-end"
+    a) Map out user interactions 
+    b) 
+
+3. 
+
+Semester-to-semester course schedule
+    i.   add/remove courses
+    ii.  checkbox of requirements (fulfilled as courses are added)
+        a. foreign language
+        b. pe
+        c. breadth (areas 1-6)
+        d. overlays (speaking, writing, analyzing difference)
+        e. ID1
+    iii. customizable number of units
+    iv. valid schedule? (dependencies (pre-reqs), and if current schedule, timing)
