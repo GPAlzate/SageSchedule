@@ -4,6 +4,7 @@
 # 
 
 import pandas as pd
+import numpy as np
 import os
 import time
 
@@ -18,13 +19,22 @@ POMONA_GEs_URL = (
     ":embed=y&:display_count=n&:origin=viz_share_link&:showVizHome=n"
 )
 
+def get_browser():
+    # chrome options: set the download destination to current directory
+    chromeOptions = webdriver.ChromeOptions()
+    prefs = {"download.default_directory" : os.path.abspath('.')}
+    chromeOptions.add_experimental_option("prefs",prefs)
+
+    # dont open browser window
+    chromeOptions.add_argument('headless')
+    chromeOptions.add_argument('window-size=1200x600')
+    return webdriver.Chrome(executable_path='./chromedriver', options=chromeOptions)
+
 def selenium_click_download(driver, wait):
-    print("Downloading Course List.xlsx...")
     # click download
     download_path = '//*[@id="download-ToolbarButton"]'
     driver.find_element_by_xpath(download_path).click()
 
-    print("Getting crosstabs...")
     # select the crosstab option (allows to download excel/csv)
     crosstab_path = '//*[@id="DownloadDialog-Dialog-Body-Id"]/div/fieldset/button[3]'
     wait.until(
@@ -46,12 +56,18 @@ def selenium_click_download(driver, wait):
 
     # and finally download (excel)
     final_download = (
-        '//*[@id="export-crosstab-options-dialog-Dialog-BodyWrapper-Dialog-Body-Id"]/div/div[3]/'
-        'button'
+        '//*[@id="export-crosstab-options-dialog-Dialog-BodyWrapper-Dialog-Body-Id"]'
+        '/div/div[3]/button'
     )
     driver.find_element_by_xpath(final_download).click()
 
-def download_tableau_courses(driver, wait):
+def download_tableau_courses():
+
+    # open driver and create explicit waiter object
+    driver = get_browser()
+    driver.get(POMONA_GEs_URL)
+    wait = WebDriverWait(driver, 10)
+
     try:
         # click clear all
         print("Clearing filters...")
@@ -81,45 +97,44 @@ def download_tableau_courses(driver, wait):
         print(e)
         print("An error occurred trying to filter the data.")
 
-    # series of download clicks. if it fails, the exception will keep trying (2 more times)
+    # StaleElement expected here for the first download attempt. this while loop simply retries
+    # three more times (should work after the next attempt)
+    print("Downloading Course List.xlsx...")
     max_attempts = 3
     while max_attempts:
         try:
             selenium_click_download(driver, wait)
-            print("Courses successfully downloaded.")
-            break
-
+            print("Courses successfully downloaded.\nGetting courses...", end="")
+            return
         except StaleElementReferenceException as s:
-            print(s)
-            print("Download error occurred. Trying again...")
+            if max_attempts < 3:
+                print(s)
+                print("Download error occurred. Trying again...")
             max_attempts -= 1
             
-    if not max_attempts:
-        print("Too many attempts. Closing...")
+    print("Too many attempts. Closing...")
 
 if __name__ == "__main__":
 
+    # if course list isn't there already, get it
     if not os.path.exists('Course List.xlsx'):
         # scrape GEs from Tableau. Done by physically downloading the excel spreadsheet of courses
         print("Scraping GEs...")
 
-        # chrome options set the download destination to current directory
-        chromeOptions = webdriver.ChromeOptions()
-        prefs = {"download.default_directory" : os.path.abspath('.')}
-        chromeOptions.add_experimental_option("prefs",prefs)
-        driver = webdriver.Chrome(executable_path='./chromedriver', options=chromeOptions)
+        # download the excel spreadsheet of courses
+        download_tableau_courses()
 
-        # open driver and create explicit waiter object
-        driver.get(POMONA_GEs_URL)
-        wait = WebDriverWait(driver, 10)
-
-        download_tableau_courses(driver, wait)
-
-        print("Waiting for courses...", end="")
-        while not os.path.exists('Course List.xlsx'):
-            print(".", end="")
-            time.sleep(1)
-        print()
+    while not os.path.exists('Course List.xlsx'):
+        print(".", end="")
+        time.sleep(1)
+    print(" Success!")
         
-    a = pd.read_excel('Course List.xlsx')
-    print(a.head())
+    df = pd.read_excel('Course List.xlsx')
+
+    # remove rows with n/a course number
+    df_valid = df.dropna(subset=['Course Number'])
+
+    # replace white space with nan
+    df_clean = df_valid.replace(r'^\s*$', np.nan, regex=True)
+
+    print(df_clean)
