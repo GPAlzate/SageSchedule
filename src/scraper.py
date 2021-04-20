@@ -28,7 +28,7 @@ def get_browser():
     # don't open browser window
     chromeOptions.add_argument('headless')
     chromeOptions.add_argument('window-size=1200x600')
-    return webdriver.Chrome(executable_path='./chromedriver', options=chromeOptions)
+    return webdriver.Chrome(executable_path='./static/chromedriver', options=chromeOptions)
 
 def selenium_click_download(driver, wait):
     # click download

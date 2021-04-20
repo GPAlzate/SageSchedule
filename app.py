@@ -11,7 +11,7 @@ app = Flask(__name__)
 # The home page
 @app.route('/')
 def index():
-    prefix = 'MATH'
+    prefix = 'KO'
     courses = df[df['Course Number'].str.startswith(prefix)]
     return render_template('index.html', courses=courses.to_html(index=False))
 
