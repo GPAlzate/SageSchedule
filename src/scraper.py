@@ -25,7 +25,7 @@ def get_browser():
     prefs = {"download.default_directory" : os.path.abspath('.')}
     chromeOptions.add_experimental_option("prefs",prefs)
 
-    # dont open browser window
+    # don't open browser window
     chromeOptions.add_argument('headless')
     chromeOptions.add_argument('window-size=1200x600')
     return webdriver.Chrome(executable_path='./chromedriver', options=chromeOptions)
@@ -104,7 +104,7 @@ def download_tableau_courses():
     while max_attempts:
         try:
             selenium_click_download(driver, wait)
-            print("Courses successfully downloaded.\nGetting courses...", end="")
+            print("Courses successfully downloaded.", end="")
             return
         except StaleElementReferenceException as s:
             if max_attempts < 3:
@@ -114,8 +114,7 @@ def download_tableau_courses():
             
     print("Too many attempts. Closing...")
 
-if __name__ == "__main__":
-
+def get_courses():
     # if course list isn't there already, get it
     if not os.path.exists('Course List.xlsx'):
         # scrape GEs from Tableau. Done by physically downloading the excel spreadsheet of courses
@@ -124,6 +123,7 @@ if __name__ == "__main__":
         # download the excel spreadsheet of courses
         download_tableau_courses()
 
+    print("Getting courses...", end="")
     while not os.path.exists('Course List.xlsx'):
         print(".", end="")
         time.sleep(1)
@@ -132,9 +132,7 @@ if __name__ == "__main__":
     df = pd.read_excel('Course List.xlsx')
 
     # remove rows with n/a course number
-    df_valid = df.dropna(subset=['Course Number'])
+    df_clean = df.dropna(subset=['Course Number'])
 
     # replace white space with nan
-    df_clean = df_valid.replace(r'^\s*$', np.nan, regex=True)
-
-    print(df_clean)
+    return df_clean.replace(r'^\s*$', np.nan, regex=True)

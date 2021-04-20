@@ -1,7 +1,4 @@
 <!doctype html>
-<title>Schedulr.</title>
-<ul>
-    {% for major in majors %}
-    <li><a href='{{ majors[major] }}'>{{ major }}<a></li>
-    {% endfor %}
-</ul>
+<title>SageSchedule.</title>
+<h1>Courses</h1>
+{{courses | safe}}
