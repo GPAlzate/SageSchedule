@@ -22,4 +22,8 @@ Semester-to-semester course schedule
 4. valid schedule? (dependencies (pre-reqs), and if current schedule, timing)
 
 Things to run:
-`pnpm run tw:build`
+
+```
+flask run
+pnpm run tw:build
+```
