@@ -5,7 +5,41 @@
     <nav>
         <h1 class="font-bold text-6xl">Courses</h1>
     </nav>
-    <div>
-        {{courses | safe}}
+    <div class="p-8">
+        <form action="{{ url_for('search') }}">
+            <div class="bg-white flex items-center rounded-full shadow-xl">
+            <input class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight
+                            focus:outline-none" id="search" type="text" placeholder="Search" 
+                            name="q">
+            <div class="p-4">
+                <button class="bg-pink-600 text-white rounded-full p-2 hover:bg-pink-300 focus:outline-none w-12 h-12 flex items-center justify-center"
+                type="submit">
+                    구하다
+                </button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    <div class="flex justify-start">
+    {% if courses is not none %}
+    <div class='w-1/2'>
+    <table class="rounded-t-lg m-5 w-5/6 mx-auto text-pink-100 bg-pink-700">
+        <tr class="text-left border-b-2 border-pink-200 font-bold">
+          <th class="px-4 py-3">Course Number</th>
+          <th class="px-4 py-3">Course Name</th>
+          <th class="px-4 py-3">Area</th>
+        </tr>
+        <!-- each row -->
+        {% for index, course in courses.iterrows() %}
+        <tr class="bg-pink-600 font-semibold">
+            <td class="px-4 py-3 border-b border-pink-500">{{course[0]}}</td>
+            <td class="px-4 py-3 border-b border-pink-500">{{course[1]}}</td>
+            <td class="px-4 py-3 border-b border-pink-500">{{course[2]}}</td>
+        </tr>    
+        {% endfor %}
+    </table>
+    </div>
+    {% endif %}
     </div>
 </div>
