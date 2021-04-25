@@ -9,23 +9,25 @@ from flask import render_template
 from flask import request
 app = Flask(__name__)
 
+df = get_courses()
+
 # The home page
 @app.route('/')
 def index():
     # prefix = 'KO'
     # courses = df[df['Course Number'].str.startswith(prefix)]
-    return render_template('index.html')
+    return render_template('index.html', courses=None)
 
 @app.route('/search')
 def search():
     q = request.args.get('q')
+    courses = None
     if q:
         courses = df[
             df['Course Number'].str.startswith(q.upper()) |
-            df['Course Title'].str.contains(q)
+            df['Course Title'].str.contains(q, case=False)
         ]
-        return render_template('index.html', courses=courses)
+    return render_template('index.html', courses=courses)
 
 if __name__== '__main__':
-    df = get_courses()
     app.run(debug=True)

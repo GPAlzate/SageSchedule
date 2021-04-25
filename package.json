@@ -5,6 +5,7 @@
 		"tailwindcss": "^2.1.1"
 	},
 	"scripts": {
-		"tw:build": "tailwindcss build ./static/css/tailwind.css -o ./static/css/main.css"
+		"tw:build": "tailwindcss build ./static/css/tailwind.css -o ./static/css/main.css",
+		"tw:prod": "NODE_ENV=production tailwindcss build ./static/css/tailwind.css -o ./static/css/main.css"
 	}
 }
