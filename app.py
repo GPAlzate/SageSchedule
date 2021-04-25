@@ -14,8 +14,6 @@ df = get_courses()
 # The home page
 @app.route('/')
 def index():
-    # prefix = 'KO'
-    # courses = df[df['Course Number'].str.startswith(prefix)]
     return render_template('index.html', courses=None)
 
 @app.route('/search')
