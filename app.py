@@ -4,16 +4,20 @@
 from src.scraper import get_courses
 import os
 
-from flask import Flask, redirect
-from flask import render_template
-from flask import request
+from flask import Flask, redirect, render_template, request, session
 app = Flask(__name__)
+app.secret_key = 'all our celebrities keep dying'
 
 df = get_courses()
 
 # The home page
 @app.route('/')
 def index():
+    if 'school_year' not in session:
+        session['school_year'] = 21
+    if 'semesters' not in session:
+        session['semesters'] = 8
+    print(session['semesters'])
     return render_template('index.html', courses=None)
 
 @app.route('/search')
