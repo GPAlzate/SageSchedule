@@ -21,6 +21,14 @@ Semester-to-semester course schedule
 3. customizable number of units
 4. valid schedule? (dependencies (pre-reqs), and if current schedule, timing)
 
+TO DO NEXT
+1. Search function 
+    a. "fuzzier" functionality
+    b. based on course description
+    c. 
+2. Add to schedule
+3. Course list: put area/breadth requirements concisely
+
 Things to run:
 
 ```

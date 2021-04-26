@@ -58,9 +58,9 @@
         {% endif %}
         <div class="w-1/2 flex justify-center items-center">
             {% set year = session['school_year'] %}
-            <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2 w-5/6 mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-y-10 w-5/6 mx-auto">
             {% for i in range(session['semesters']) %}
-            <div class="rounded bg-blue-400 w-5/6 p-2">
+            <div class="rounded bg-blue-200 w-5/6 p-2">
                 <div class="flex justify-between py-1 px">
                     <h3 class="text-sm font-bold">
                         {{ 'FA' if not i % 2 else 'SP' }} '{{ (year + i/2) | round(0, 'ceil') |int }}
@@ -71,7 +71,7 @@
                         CS101
                   </div>
                   
-                    <div class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
+                <div class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
                         CS140
                   </div>
                   
