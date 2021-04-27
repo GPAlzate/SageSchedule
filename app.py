@@ -5,6 +5,7 @@ from src.scraper import get_courses
 
 import os
 import re
+import json
 
 from flask import Flask, redirect, render_template, request, session
 app = Flask(__name__)
@@ -19,7 +20,6 @@ def index():
         session['school_year'] = 21
     if 'semesters' not in session:
         session['semesters'] = 8
-    print(session['semesters'])
     return render_template('index.html', courses=None)
 
 @app.route('/search')

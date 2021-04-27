@@ -131,8 +131,8 @@ def get_courses():
         
     df = pd.read_excel('Course List.xlsx')
 
-    # remove rows with n/a course number
-    df_clean = df.dropna(subset=['Course Number'])
+    # remove rows with n/a course number and change whitespace to nan
+    df_clean = df.dropna(subset=['Course Number']).replace(r'^\s*$', np.nan, regex=True)
 
-    # replace white space with nan
-    return df_clean.replace(r'^\s*$', np.nan, regex=True)
+    # drop redundant columns
+    return df_clean.drop(columns=['Language Requirement', 'Breadth Area Description'])
