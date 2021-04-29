@@ -32,14 +32,15 @@ def create_semesters():
 # The home page
 @app.route('/')
 def index():
-    for a in session:
-        print(a)
-    if True:
+    if 'school_year' not in session:
+        print('Setting school year to ', SCHOOL_YEAR)
         session['school_year'] = SCHOOL_YEAR
-    # if 'num_sems' not in session:
     if 'semesters' not in session:
+        print('Setting number of semesters to ', NUM_SEMS)
         session['num_sems'] = NUM_SEMS
         create_semesters()
+    for n in session:
+        print(f'{n}:{session[n]}')
     return render_template('index.html', courses=None)
 
 @app.route('/search')
@@ -47,7 +48,6 @@ def search():
     q = request.args.get('q')
     courses = None
     if q:
-
         # split query by non-alphanum characters
         keywords = re.split('[^a-zA-Z0-9]', q)
 
@@ -66,10 +66,8 @@ def addCourse():
     sem = data['sem']
     course = json.loads(data['course'])
     session[sem].append(course)
-    print(sem)
-    print(session[sem])
-    return jsonify({'message':'success'})
-
+    session.modified = True
+    return data
 
 if __name__== '__main__':
     app.run(debug=True)
