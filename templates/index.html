@@ -2,6 +2,10 @@
 <html lang='en'>
 <head>
 <title>SageSchedule.</title>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
 </head>
 
@@ -67,11 +71,11 @@
         <div class="w-1/2 flex justify-center items-center">
             {% set year = session['school_year'] %}
             <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-y-10 gap-x-2 w-full mx-auto">
-            {% for i in range(session['semesters']|length) %}
+            {% for semester in session['semesters'] %}
             <div class="rounded-lg bg-blue-200 w-11/12 p-2 mx-auto">
                 <div class="flex justify-between py-1 px">
                     <h3 class="text-sm font-bold">
-                        {{ 'Fall' if not i % 2 else 'Spring' }} '{{ (year + i/2) | round(0, 'ceil') |int}}
+                        {{ semester }}
                     </h3>
                 </div>
                 <div class="text-sm mt-2">

@@ -1,6 +1,6 @@
 // save toggled elements in a list to toggle their 'hidden' back after modal closes
 var toggledElts = []
-var selectedCourse = None
+var selectedCourse = null
 
 const overlay = document.querySelector('.modal-overlay')
 overlay.addEventListener('click', toggleModal)
@@ -71,3 +71,21 @@ function toggleElt(tagId, area=null) {
     elt.classList.toggle('hidden')
     return elt
 }
+
+$('#addCourse').click(function() {
+   var selectedSem = $('#semSelect option:selected').text()
+   var selectedCourse = window.selectedCourse
+
+   console.log(selectedCourse)
+   console.log(selectedSem)
+   $.ajax({
+       type: "POST",
+       url: "addCourse",
+       data: JSON.stringify({
+           'sem': selectedSem,
+           'course': selectedCourse
+       }),
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+   })
+});

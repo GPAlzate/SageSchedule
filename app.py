@@ -7,7 +7,7 @@ import os
 import re
 import json
 
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, jsonify
 
 SCHOOL_YEAR = 21
 NUM_SEMS = 8
@@ -18,24 +18,26 @@ app.secret_key = 'all our celebrities keep dying'
 df = get_courses()
 
 def create_semesters():
-    semesters = {}
+    semesters = []
     for i in range(NUM_SEMS):
         # create a dictionary of semesters in session
         # each sem will store the courses selected by the user
-        semesters[f"{'Spring' if i % 2 else 'Fall'} {SCHOOL_YEAR + (i + 1)//2}"] = None
+        sem = f"{'Spring' if i % 2 else 'Fall'} '{SCHOOL_YEAR + (i + 1)//2}"
+        semesters.append(sem)
+        session[sem] = []
 
     # save the dictionary of semester strings
     session['semesters'] = semesters
-    for s in semesters:
-        print(s)
 
 # The home page
 @app.route('/')
 def index():
+    for a in session:
+        print(a)
     if True:
         session['school_year'] = SCHOOL_YEAR
     # if 'num_sems' not in session:
-    if True:
+    if 'semesters' not in session:
         session['num_sems'] = NUM_SEMS
         create_semesters()
     return render_template('index.html', courses=None)
@@ -57,6 +59,17 @@ def search():
         ]
         
     return render_template('index.html', courses=courses)
+
+@app.route('/addCourse', methods=['POST'])
+def addCourse():
+    data = request.get_json()
+    sem = data['sem']
+    course = json.loads(data['course'])
+    session[sem].append(course)
+    print(sem)
+    print(session[sem])
+    return jsonify({'message':'success'})
+
 
 if __name__== '__main__':
     app.run(debug=True)
