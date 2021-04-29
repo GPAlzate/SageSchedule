@@ -1,5 +1,6 @@
 // save toggled elements in a list to toggle their 'hidden' back after modal closes
 var toggledElts = []
+var selectedCourse = None
 
 const overlay = document.querySelector('.modal-overlay')
 overlay.addEventListener('click', toggleModal)
@@ -22,6 +23,7 @@ document.onkeydown = function(evt) {
 };
 
 function toggleModal(course) {
+    selectedCourse = course
     const body = document.querySelector('body')
     const modal = document.querySelector('.modal')
     modal.classList.toggle('opacity-0')

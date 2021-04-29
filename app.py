@@ -26,13 +26,16 @@ def create_semesters():
 
     # save the dictionary of semester strings
     session['semesters'] = semesters
+    for s in semesters:
+        print(s)
 
 # The home page
 @app.route('/')
 def index():
-    if 'school_year' not in session:
+    if True:
         session['school_year'] = SCHOOL_YEAR
-    if 'num_sems' not in session:
+    # if 'num_sems' not in session:
+    if True:
         session['num_sems'] = NUM_SEMS
         create_semesters()
     return render_template('index.html', courses=None)

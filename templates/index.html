@@ -67,18 +67,18 @@
         <div class="w-1/2 flex justify-center items-center">
             {% set year = session['school_year'] %}
             <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-y-10 gap-x-2 w-full mx-auto">
-            {% for semester in session['semesters'] %}
+            {% for i in range(session['semesters']|length) %}
             <div class="rounded-lg bg-blue-200 w-11/12 p-2 mx-auto">
                 <div class="flex justify-between py-1 px">
                     <h3 class="text-sm font-bold">
-                        {{ semester }}
+                        {{ 'Fall' if not i % 2 else 'Spring' }} '{{ (year + i/2) | round(0, 'ceil') |int}}
                     </h3>
                 </div>
                 <div class="text-sm mt-2">
-                    <div class="select-none cursor-pointer bg-gray-200 rounded-md flex flex-1 items-center p-4  transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="select-none cursor-pointer bg-gray-200 rounded-md flex flex-1 items-center p-4 mb-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
                         <!-- <div class="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-4">📖</div> -->
                         <div class="flex-1 pl-1 mr-16">
-                            <div class="font-medium"> Intro to Languages & Theory </div>
+                            <div class="font-medium w-3/4 truncate overflow-ellipsis"> Writing for Writers: Theory, Proxy, Praxis, Metaxis </div>
                           <div class="hidden md:block text-gray-600 text-sm">CS101</div>
                         </div>
                         <div class="text-gray-600 text-xs truncate">4 credits</div>
