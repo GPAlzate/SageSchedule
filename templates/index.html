@@ -14,9 +14,10 @@
     <!-- <nav>
         <h1 class="font-bold text-6xl">Courses</h1>
     </nav> -->
-    <div class="p-8"> <!-- Div with search box -->
+    <div class="flex flex-wrap overflow-hidden">
+    <div class="p-8 w-1/2"> <!-- Div with search box -->
         <form action="{{ url_for('search') }}">
-            <div class="bg-white flex items-center rounded-full shadow-md w-1/2">
+            <div class="bg-white flex items-center rounded-full shadow-md">
             <input class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight
                             focus:outline-none" id="search" type="text" placeholder="Search..." 
                             name="q">
@@ -29,6 +30,12 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class='w-1/2 self-center flex justify-end'>
+        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mr-10 border border-blue-500 hover:border-transparent rounded">
+            Click here to see graduation planner
+          </button>
+    </div>
     </div>
 
     <div class='flex flex-row overflow-hidden'> <!-- div below search, side by side search results and schedule -->
@@ -68,8 +75,8 @@
             </table>
         </div>
         {% endif %}
-        <div class="w-1/2 flex justify-center items-center">
-            <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-y-10 gap-x-2 w-full mx-auto">
+        <div class="w-1/2 flex justify-center items-start">
+            <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-y-10 gap-x-2 w-full mx-auto my-5 -ml-5">
             {% for semester in session['semesters'] %}
             <div class="rounded-lg bg-blue-200 w-11/12 p-2 mx-auto">
                 <div class="flex justify-between py-1 px">
@@ -86,12 +93,12 @@
                             </div>
                             <div class="hidden md:block text-gray-600 text-sm">{{course['Course Number']}}</div>
                         </div>
-                        <div class="text-gray-600 text-xs truncate">4 credits</div>
+                        <div class="text-gray-600 text-xs truncate">1 credit</div>
                     </div>
                     {% endfor %}
                     <div class="mt-3 text-gray-600 rounded-md border-dashed border-gray-500
                     border-2 p-4 hover:border-blue-50 transition duration-100 ease-in-out
-                    transform hover:bg-blue-300 hover:shadow-lg">
+                    transform">
                         {% if courses is not none %}
                             Add courses using the '+' button!
                         {% else %}

@@ -32,6 +32,7 @@ def create_semesters():
 # The home page
 @app.route('/')
 def index():
+    session.clear()
     if 'school_year' not in session:
         print('Setting school year to ', SCHOOL_YEAR)
         session['school_year'] = SCHOOL_YEAR
