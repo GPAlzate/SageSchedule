@@ -34,12 +34,14 @@ def create_semesters():
 def index():
     session.clear()
     if 'school_year' not in session:
-        print('Setting school year to ', SCHOOL_YEAR)
         session['school_year'] = SCHOOL_YEAR
     if 'semesters' not in session:
-        print('Setting number of semesters to ', NUM_SEMS)
         session['num_sems'] = NUM_SEMS
         create_semesters()
+    if 'breadth_reqs' not in session:
+        session['breadth_reqs'] = [None] * 6
+    if 'overlay_reqs' not in session:
+        session['overlay_reqs'] = {}
     for n in session:
         print(f'{n}:{session[n]}')
     return render_template('index.html', courses=None)
@@ -66,9 +68,18 @@ def addCourse():
     data = request.get_json()
     sem = data['sem']
     course = json.loads(data['course'])
+
+    # add course to session
     session[sem].append(course)
+
+    # update fulfilled breadth reqs
+    area = course['Breadth Area']
+    num = int(course['Breadth Area'][-1]) if area else None
+    if num and not session['breadth_reqs'][num-1]:
+        session['breadth_reqs'][num -1] = course
+
     session.modified = True
-    return data
+    return course
 
 if __name__== '__main__':
     app.run(debug=True)

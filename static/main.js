@@ -76,8 +76,6 @@ $('#addCourse').click(function() {
    var selectedSem = $('#semSelect option:selected').text()
    var selectedCourse = window.selectedCourse
 
-   console.log(selectedCourse)
-   console.log(selectedSem)
    $.ajax({
        type: "POST",
        url: "addCourse",
@@ -88,7 +86,7 @@ $('#addCourse').click(function() {
        contentType: "application/json; charset=utf-8",
        dataType: "json",
        success: function(response) {
-            location.reload();  
+           location.reload();
        }
    })
 });

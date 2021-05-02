@@ -31,16 +31,16 @@
             </div>
         </form>
     </div>
-    <div class='w-1/2 self-center flex justify-end'>
+    <!-- <div id='sidebarButton' class='w-1/2 self-center flex justify-end'>
         <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mr-10 border border-blue-500 hover:border-transparent rounded">
             Click here to see graduation planner
           </button>
-    </div>
+    </div> -->
     </div>
 
-    <div class='flex flex-row overflow-hidden'> <!-- div below search, side by side search results and schedule -->
+    <div class='grid grid-rows-3 grid-flow-col gap-4'> <!-- div below search, side by side search results and schedule -->
         {% if courses is not none %} <!-- Course search results, if it exists -->
-        <div class="flex-wrap w-1/2">
+        <div class="row-span-3 flex-wrap">
             <table class="rounded-lg rounded-b-lg m-5 w-11/12 mx-auto text-pink-100 bg-pink-700">
                 <thead class="flex w-full">
                     <tr class="text-left font-bold border-b-2 border-pink-200 flex w-full">
@@ -75,8 +75,37 @@
             </table>
         </div>
         {% endif %}
-        <div class="w-1/2 flex justify-center items-start">
-            <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-y-10 gap-x-2 w-full mx-auto my-5 -ml-5">
+        <div class="row-span-1 flex justify-center items-start bg-green-200 shadow-lg mx-3">
+            <div class="flex flex-col px-6 py-8 w-1/2">
+                <h1 class="mb-8 font-extrabold text-gray-800 leading-6">Breadth Requirements</h1>
+                <ul class="flex flex-col space-y-4 text-gray-900">
+                    {% for i in range(6) %}
+                    {% set area_course = session['breadth_reqs'][i] %}
+                    {% set color = 'gray' if not area_course else 'purple' %}
+                    <div id="area{{i}}"
+                        class="bg-{{color}}-100 border-l-4 border-{{color}}-300 rounded-md w-full px-6 py-2 cursor-pointer">
+                            Area {{i+1}} - {{ area_course['Course Number'] if area_course else 'Incomplete'}}
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="flex flex-col px-6 py-8 w-1/2">
+                <h1 class="mb-8 font-extrabold text-gray-800 leading-6">Overlay Requirements</h1>
+                <ul class="flex flex-col space-y-4 text-gray-900">
+                    <div
+                        class="bg-yellow-100 border-l-4 border-yellow-300 rounded-md w-full px-6 py-2 cursor-pointer">
+                        Analyzing Difference</div>
+                    <div
+                        class="bg-purple-100 border-l-4 border-purple-300 rounded-md w-full px-6 py-2 cursor-pointer">
+                        Writing Intensive</div>
+                    <div
+                        class="bg-red-100 border-l-4 border-red-300 rounded-md w-full px-6 py-2 cursor-pointer">
+                        Speaking Intensive</div>
+                </ul>
+            </div>
+        </div>
+        <div class="row-span-2 flex justify-center items-start">
+            <div class="grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-y-10 gap-x-2 w-full mx-auto my-5">
             {% for semester in session['semesters'] %}
             <div class="rounded-lg bg-blue-200 w-11/12 p-2 mx-auto">
                 <div class="flex justify-between py-1 px">
