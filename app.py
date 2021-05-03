@@ -41,7 +41,11 @@ def index():
     if 'breadth_reqs' not in session:
         session['breadth_reqs'] = [None] * 6
     if 'overlay_reqs' not in session:
-        session['overlay_reqs'] = {}
+        session['overlay_reqs'] = {
+            'Analyzing Difference' : None,
+            'Writing Intensive' : None,
+            'Speaking Intensive' : None
+        }
     for n in session:
         print(f'{n}:{session[n]}')
     return render_template('index.html', courses=None)
@@ -77,6 +81,15 @@ def addCourse():
     num = int(course['Breadth Area'][-1]) if area else None
     if num and not session['breadth_reqs'][num-1]:
         session['breadth_reqs'][num -1] = course
+
+    # update overlays (a course can only fulfill one overlay)
+    overlay_reqs = session['overlay_reqs']
+    if not overlay_reqs['Analyzing Difference'] and course['Analyzing Difference']:
+        overlay_reqs['Analyzing Difference'] = course
+    elif not overlay_reqs['Writing Intensive'] and course['Writing Intensive']:
+        overlay_reqs['Writing Intensive'] = course
+    elif not overlay_reqs['Speaking Intensive'] and course['Speaking Intensive']:
+        overlay_reqs['Speaking Intensive'] = course
 
     session.modified = True
     return course

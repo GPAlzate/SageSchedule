@@ -2,6 +2,7 @@
 <html lang='en'>
 <head>
 <title>SageSchedule.</title>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 <script
   src="https://code.jquery.com/jquery-3.6.0.js"
   integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -17,15 +18,25 @@
     <div class="flex flex-wrap overflow-hidden">
     <div class="p-8 w-1/2"> <!-- Div with search box -->
         <form action="{{ url_for('search') }}">
-            <div class="bg-white flex items-center rounded-full shadow-md">
+            <div class="bg-white flex items-center rounded-full shadow-lg border-2 border-black">
             <input class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight
-                            focus:outline-none" id="search" type="text" placeholder="Search..." 
+                            focus:outline-none" id="search" type="text" placeholder="Search by course..." 
                             name="q">
                 <div class="p-4">
                     <button class="bg-pink-600 text-white rounded-full p-2 hover:bg-pink-300
-                        focus:outline-none w-12 h-12 flex items-center justify-center"
+                        focus:outline-none w-9 h-9 flex items-center justify-center"
                     type="submit">
-                        구하다
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="15px" height="15px" viewBox="0 0 30.239 30.239" style="enable-background:new 0 0 30.239 30.239;"
+	 xml:space="preserve">
+<g>
+	<path style="fill:white" d="M20.194,3.46c-4.613-4.613-12.121-4.613-16.734,0c-4.612,4.614-4.612,12.121,0,16.735
+		c4.108,4.107,10.506,4.547,15.116,1.34c0.097,0.459,0.319,0.897,0.676,1.254l6.718,6.718c0.979,0.977,2.561,0.977,3.535,0
+		c0.978-0.978,0.978-2.56,0-3.535l-6.718-6.72c-0.355-0.354-0.794-0.577-1.253-0.674C24.743,13.967,24.303,7.57,20.194,3.46z
+		 M18.073,18.074c-3.444,3.444-9.049,3.444-12.492,0c-3.442-3.444-3.442-9.048,0-12.492c3.443-3.443,9.048-3.443,12.492,0
+		C21.517,9.026,21.517,14.63,18.073,18.074z"/>
+</g>
+</svg>
                     </button>
                 </div>
             </div>
@@ -41,33 +52,48 @@
     <div class='grid grid-rows-3 grid-flow-col gap-4'> <!-- div below search, side by side search results and schedule -->
         {% if courses is not none %} <!-- Course search results, if it exists -->
         <div class="row-span-3 flex-wrap">
-            <table class="rounded-lg rounded-b-lg m-5 w-11/12 mx-auto text-pink-100 bg-pink-700">
+            <table class="rounded-lg rounded-b-lg m-5 w-11/12 mx-auto text-gray-800 bg-indigo-100">
                 <thead class="flex w-full">
-                    <tr class="text-left font-bold border-b-2 border-pink-200 flex w-full">
+                    <tr class="text-left font-bold border-b-2 border-gray-200 flex w-full">
                     <td class="px-4 py-3 w-1/8"></td>
                     <th class="px-4 py-3 w-1/3">Course Number</th>
                     <th class="px-4 py-3 w-1/3">Course Name</th>
-                    <th class="px-4 py-3 w-1/3">Area</th>
+                    <th class="px-4 py-3 w-1/3">Area/Overlays</th>
                     </tr>
                 </thead>
                 <!-- each row -->
                 <tbody class='overflow-y-auto flex flex-col w-full' style="height: 75vh">
                 {% for index, course in courses.iterrows() %}
-                <tr class="bg-pink-600 font-semibold w-full flex">
-                    <td class="px-4 py-3 border-b border-pink-500 w-1/8">
+                <tr class="bg-gray-100 font-semibold w-full flex">
+                    <td class="px-4 py-3 border-b border-gray-200 w-1/8">
                         <button onclick="toggleModal('{{course.to_json()}}')"
-                        class="bg-transparent hover:text-pink-600
-                        hover:bg-white font-semibold py-2 px-4 border border-white text-white
-                        rounded-full" style="padding:0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        class="bg-indigo-200 hover:text-gray-500
+                        hover:bg-indigo-100 font-semibold border
+                        rounded-full" style="margin-top:2px">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="navy" class="bi bi-plus" viewBox="0 0 16 16">
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                         </svg>
                         </button>
                     </td>
-                    <td class="px-4 py-3 border-b border-pink-500 w-1/3">{{course[0]}}</td>
-                    <td class="px-4 py-3 border-b border-pink-500 w-1/3">{{course[1]}}</td>
-                    <td class="px-4 py-3 border-b border-pink-500 w-1/3">
-                        {{'N/A' if course[2] == 'nan' else course[2]}}
+                    <td class="px-4 py-3 border-b border-gray-200 w-1/3 font-normal">{{course[0]}}</td>
+                    <td class="px-4 py-3 border-b border-gray-200 w-1/3 font-normal">{{course[1]}}</td>
+                    <td class="px-4 py-3 border-b border-gray-200 w-1/3 font-normal">
+                        {% set ges = [] %}
+                        {% if course[2]|string != 'nan' %}
+                            {{ '' if ges.append(course[2]) }}
+                        {% endif %}
+                        {% if course[4] %}
+                            {{ '' if ges.append('Analyzing Difference') }}
+                        {% endif %}
+                        {% if course[5] %}
+                            {{ '' if ges.append('Speaking Intensive') }}
+                        {% endif %}
+                        {% if course[7] %}
+                            {{ '' if ges.append('Writing Intensive') }}
+                        {% endif %}
+                        {% for ge in ges %}
+                            {{ ge }}{{ ', ' if not loop.last }}
+                        {% endfor %}
                     </td>
                 </tr>    
                 {% endfor %}
@@ -75,16 +101,16 @@
             </table>
         </div>
         {% endif %}
-        <div class="row-span-1 flex justify-center items-start bg-green-200 shadow-lg mx-3">
+        <div class="row-span-1 flex justify-center items-start bg-purple-200 shadow-lg rounded-lg mx-3 mt-5">
             <div class="flex flex-col px-6 py-8 w-1/2">
                 <h1 class="mb-8 font-extrabold text-gray-800 leading-6">Breadth Requirements</h1>
                 <ul class="flex flex-col space-y-4 text-gray-900">
                     {% for i in range(6) %}
                     {% set area_course = session['breadth_reqs'][i] %}
-                    {% set color = 'gray' if not area_course else 'purple' %}
+                    {% set color = 'gray' if not area_course else 'green' %}
                     <div id="area{{i}}"
-                        class="bg-{{color}}-100 border-l-4 border-{{color}}-300 rounded-md w-full px-6 py-2 cursor-pointer">
-                            Area {{i+1}} - {{ area_course['Course Number'] if area_course else 'Incomplete'}}
+                        class="bg-{{color}}-100 border-l-4 border-{{color}}-300 rounded-md w-full px-4 py-2 cursor-pointer">
+                            <b>Area {{i+1}}</b>: {{ area_course['Course Number'] if area_course else 'Incomplete'}}
                     </div>
                     {% endfor %}
                 </ul>
@@ -92,15 +118,13 @@
             <div class="flex flex-col px-6 py-8 w-1/2">
                 <h1 class="mb-8 font-extrabold text-gray-800 leading-6">Overlay Requirements</h1>
                 <ul class="flex flex-col space-y-4 text-gray-900">
+                    {% for overlay, course in session['overlay_reqs'].items() %}
+                    {% set color = 'gray' if not course else 'green' %}
                     <div
-                        class="bg-yellow-100 border-l-4 border-yellow-300 rounded-md w-full px-6 py-2 cursor-pointer">
-                        Analyzing Difference</div>
-                    <div
-                        class="bg-purple-100 border-l-4 border-purple-300 rounded-md w-full px-6 py-2 cursor-pointer">
-                        Writing Intensive</div>
-                    <div
-                        class="bg-red-100 border-l-4 border-red-300 rounded-md w-full px-6 py-2 cursor-pointer">
-                        Speaking Intensive</div>
+                        class="bg-{{color}}-100 border-l-4 border-{{color}}-300 rounded-md w-full px-4 py-2 cursor-pointer">
+                        <b style='font-weight:600'>{{ overlay }}</b>: {{ course['Course Number'] if course else 'Incomplete' }}
+                    </div>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -115,7 +139,7 @@
                 </div>
                 <div class="text-sm mt-2">
                     {% for course in session[semester] %}
-                    <div class="select-none cursor-pointer bg-gray-200 rounded-md flex flex-1 items-center p-4 mb-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="select-none cursor-pointer bg-gray-100 rounded-md flex flex-1 items-center p-4 mb-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
                         <div class="flex-1 pl-1 mr-16">
                             <div class="font-medium w-3/4 truncate overflow-ellipsis">
                                 {{course['Course Title']}}
